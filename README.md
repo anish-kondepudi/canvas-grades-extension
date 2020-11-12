@@ -15,4 +15,4 @@ Below are the languages and frameworks used in creating this extension:
 
 Shown below is the final product of the Canvas Chrome Extension:
 
-![Image](\README_metadata\final_product.png)
+![Image](.\README_metadata\final_product.png)
