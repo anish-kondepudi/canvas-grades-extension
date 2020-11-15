@@ -1,11 +1,22 @@
 {
-  "name": "canvas-grades-extension",
-  "version": "1.0",
-  "manifest_version": 2,
-  "content_scripts": [
-    {
-      "matches": ["https://canvas.ucdavis.edu/"],
-      "js": ["content.js", "EditDashboard.js"]
-    }
-  ]
+	"manifest_version": 2,
+	"name": "Canvas Grades Extension",
+	"version": "1.0",
+	"description": "An Extension to view all your Grades on the Courses Pages!",
+	"content_scripts":
+	[{
+      "matches": ["https://canvas.ucdavis.edu/courses"],
+      "js": ["content.js"]
+    }],
+	"icons": 
+	{
+		"128": "icon128.png",
+		"48": "icon48.png",
+		"16": "icon16.png"
+	},
+	"browser_action": 
+	{
+		"default_icon": "icon16.png",
+		"default_popup": "popup.html"
+	}
 }

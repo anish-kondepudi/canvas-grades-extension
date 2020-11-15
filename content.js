@@ -1,4 +1,11 @@
-var images = document.getElementsByTagName('img');
-for(var i =0, l = images.length; i<l; i++){
-	images[i].src = 'http://placekitten.com/' + images[i].width + '/' + images[i].height;
+var header = document.querySelector('#my_courses_table thead .course-list-nickname-column');
+header.textContent = 'Grades';
+
+var grades = ['B- (80.7%)', 'A (94.3%)', 'B+ (87.6%)', 'C- (72.3%)', 'A+ (100%)'];
+
+var column = Array.from(document.querySelectorAll('#my_courses_table tbody .course-list-nickname-column'));
+
+for(var i = 0; i < column.length; i++)
+{
+	column[i].textContent = grades[i];
 }
