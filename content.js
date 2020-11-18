@@ -1,15 +1,46 @@
-var column = Array.from(document.querySelectorAll('#my_courses_table .course-list-nickname-column'));
-column[0].textContent = 'Grades';
+var obj;
+const grades = [];
 
-var links = Array.from(document.querySelectorAll('#my_courses_table .course-list-course-title-column a')).map(function(a){
-	return a.getAttribute('href');
+fetch('/api/v1/courses?include[]=total_scores&enrollment_state=active', {
+	method: 'GET',
+	headers: {
+		accept: 'application/json+canvas-string-ids'
+	}
+})
+.then(response => response.json())
+.then(data => {
+
+	
+data.forEach(function(c){
+	var dict = {};
+
+	var id = c['id'];
+	var score = c['enrollments'][0]['computed_current_score'];
+	var grade = c['enrollments'][0]['computed_current_grade'];
+
+	if (id == null) dict['score'] = '';
+	else dict['id'] = id;
+
+	if (score == null) dict['score'] = '';
+	else dict['score'] = ' (' + score.toString() + ') ';
+
+	if (grade == null) dict['grade'] = 'N/A';
+	else dict['grade'] = grade;
+
+	grades.push(dict);
 });
 
-var grades = ['B- (80.7%)', 'A (94.3)%', 'B+ (87.6%)', 'C- (72.3%)', 'A+ (100%)'];
+var header = document.querySelector('#my_courses_table thead .course-list-nickname-column');
+header.textContent = 'Grades';
 
-for(var i = 1; i < column.length; i++){
+var column = Array.from(document.querySelectorAll('#my_courses_table tbody .course-list-nickname-column'));
+
+for(var i = 0; i < column.length; i++){
 	const a = document.createElement('a');
-	a.setAttribute('href', links[i-1] + '/grades');
-	a.textContent = grades[i];
+	a.setAttribute('href', '/courses/' + grades[i]['id'] + '/grades');
+	a.textContent = grades[i]['grade'] + grades[i]['score'] ;
+	console.log(a);
 	column[i].appendChild(a);
 }
+
+});
