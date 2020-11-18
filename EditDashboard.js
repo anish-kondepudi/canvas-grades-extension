@@ -1,3 +1,90 @@
-var courses_element = document.createElement('p');
-courses_element.innerHTML = '<table id="my_courses_table" class="ic-Table ic-Table--bordered course-list-table">     <thead>       <tr>         <th scope="col" class="course-list-star-column"><span class="screenreader-only">Favorites</span></th>         <th scope="col" class="course-list-course-title-column course-list-no-left-border">Course</th>         <th scope="col" class="course-list-nickname-column course-list-no-left-border">Nickname</th>         <th scope="col" class="course-list-term-column course-list-no-left-border">Term</th>         <th scope="col" class="course-list-enrolled-as-column course-list-no-left-border">Enrolled as</th>         <th scope="col" class="course-list-published-column course-list-no-left-border">Published</th>       </tr>     </thead>     <tbody>    <tr class="course-list-table-row ">       <td class="course-list-star-column">         <span           class="  course-list-favoritable"           data-tooltip="bottom"           title="Click to add to the courses menu."           role="button"           tabindex="0"           data-course-id="547556"               data-favorite-url=https://canvas.ucdavis.edu/api/v1/users/self/favorites/courses/547556         >           <i class="course-list-favorite-icon icon-star-light"></i>           <span id="course_list_screenreader_message_547556" class="screenreader-only">             Click to add to the courses menu.           </span>         </span>       </td>        <td class="course-list-course-title-column         course-list-no-left-border         ">           <span aria-hidden="true" class="course-color-block" style="color: #D41E00;" ></span>         <a href="/courses/547556" title="Aggie Success: A Professors Guide 007">         <span class="name">           Aggie Success: A Professors Guide 007         </span>         </a>       </td>        <td class="course-list-no-left-border course-list-nickname-column">        </td>        <td class="course-list-no-left-border course-list-term-column">         <span class="screenreader-only">Default Term</span>       </td>        <td class="course-list-no-left-border course-list-enrolled-as-column">         Student       </td>        <td class="course-list-no-left-border course-list-published-column ">             <span data-tooltip title="This course has been published.">Yes</span>              <span class="screenreader-only">This course has been published.</span>       </td>    </tr>     <tr class="course-list-table-row ">       <td class="course-list-star-column">         <span           class="  course-list-favoritable"           data-tooltip="bottom"           title="Click to add to the courses menu."           role="button"           tabindex="0"           data-course-id="288730"               data-favorite-url=https://canvas.ucdavis.edu/api/v1/users/self/favorites/courses/288730         >           <i class="course-list-favorite-icon icon-star-light"></i>           <span id="course_list_screenreader_message_288730" class="screenreader-only">             Click to add to the courses menu.           </span>         </span>       </td>        <td class="course-list-course-title-column         course-list-no-left-border         ">           <span aria-hidden="true" class="course-color-block" style="color: #E1185C;" ></span>         <a href="/courses/288730" title="Book Group">         <span class="name">           Book Group         </span>         </a>       </td>        <td class="course-list-no-left-border course-list-nickname-column">        </td>        <td class="course-list-no-left-border course-list-term-column">         <span class="screenreader-only">Default Term</span>       </td>        <td class="course-list-no-left-border course-list-enrolled-as-column">         Student       </td>        <td class="course-list-no-left-border course-list-published-column ">             <span data-tooltip title="This course has been published.">Yes</span>              <span class="screenreader-only">This course has been published.</span>       </td>    </tr>     <tr class="course-list-table-row ">       <td class="course-list-star-column">         <span           class="  course-list-favoritable"           data-tooltip="bottom"           title="Click to add to the courses menu."           role="button"           tabindex="0"           data-course-id="484136"               data-favorite-url=https://canvas.ucdavis.edu/api/v1/users/self/favorites/courses/484136         >           <i class="course-list-favorite-icon icon-star-light"></i>           <span id="course_list_screenreader_message_484136" class="screenreader-only">             Click to add to the courses menu.           </span>         </span>       </td>        <td class="course-list-course-title-column         course-list-no-left-border         ">           <span aria-hidden="true" class="course-color-block" style="color: #4D3D4D;" ></span>         <a href="/courses/484136" title="ECS 036A A01-A04 FQ 2020">         <span class="name">           ECS 036A A01-A04 FQ 2020         </span>         </a>       </td>        <td class="course-list-no-left-border course-list-nickname-column">        </td>        <td class="course-list-no-left-border course-list-term-column">         Fall Quarter 2020       </td>        <td class="course-list-no-left-border course-list-enrolled-as-column">         Student       </td>        <td class="course-list-no-left-border course-list-published-column ">             <span data-tooltip title="This course has been published.">Yes</span>              <span class="screenreader-only">This course has been published.</span>       </td>    </tr>     <tr class="course-list-table-row ">       <td class="course-list-star-column">         <span           class="  course-list-favoritable"           data-tooltip="bottom"           title="Click to add to the courses menu."           role="button"           tabindex="0"           data-course-id="481583"               data-favorite-url=https://canvas.ucdavis.edu/api/v1/users/self/favorites/courses/481583         >           <i class="course-list-favorite-icon icon-star-light"></i>           <span id="course_list_screenreader_message_481583" class="screenreader-only">             Click to add to the courses menu.           </span>         </span>       </td>        <td class="course-list-course-title-column         course-list-no-left-border         ">           <span aria-hidden="true" class="course-color-block" style="color: #4D3D4D;" ></span>         <a href="/courses/481583" title="ITA 001 003 FQ 2020">         <span class="name">           ITA 001 003 FQ 2020         </span>         </a>       </td>        <td class="course-list-no-left-border course-list-nickname-column">        </td>        <td class="course-list-no-left-border course-list-term-column">         Fall Quarter 2020       </td>        <td class="course-list-no-left-border course-list-enrolled-as-column">         Student       </td>        <td class="course-list-no-left-border course-list-published-column ">             <span data-tooltip title="This course has been published.">Yes</span>              <span class="screenreader-only">This course has been published.</span>       </td>    </tr>     <tr class="course-list-table-row ">       <td class="course-list-star-column">         <span           class="  course-list-favoritable"           data-tooltip="bottom"           title="Click to add to the courses menu."           role="button"           tabindex="0"           data-course-id="470409"               data-favorite-url=https://canvas.ucdavis.edu/api/v1/users/self/favorites/courses/470409         >           <i class="course-list-favorite-icon icon-star-light"></i>           <span id="course_list_screenreader_message_470409" class="screenreader-only">             Click to add to the courses menu.           </span>         </span>       </td>        <td class="course-list-course-title-column         course-list-no-left-border         ">           <span aria-hidden="true" class="course-color-block" style="color: #E1185C;" ></span>         <a href="/courses/470409" title="MAT 021A B01-B08 FQ 2020">         <span class="name">           MAT 021A B01-B08 FQ 2020         </span>         </a>       </td>        <td class="course-list-no-left-border course-list-nickname-column">        </td>        <td class="course-list-no-left-border course-list-term-column">         Fall Quarter 2020       </td>        <td class="course-list-no-left-border course-list-enrolled-as-column">         Student       </td>        <td class="course-list-no-left-border course-list-published-column ">             <span data-tooltip title="This course has been published.">Yes</span>              <span class="screenreader-only">This course has been published.</span>       </td>    </tr>      </tbody>   </table>';
-document.getElementById("DashboardCard_Container").prepend(courses_element);
+// Special thanks to Craig Taub, as table code is based
+// on his answer here: https://stackoverflow.com/questions/14643617/create-table-using-javascript
+fetch(location.protocol + '//' + location.host + location.pathname + 'api/v1/courses?include[]=total_scores&per_page=100&enrollment_state=active',{
+          method: 'GET',
+          credentials: 'include',
+          headers: {
+               "Accept": "application/json"
+          }
+     })
+    .then(res => res.json())
+    .then(data => grades_data = data)
+    .then(function(){
+      // Create an html element to put our table in
+      var new_element = document.createElement('div');
+
+      // Make a table object, make sure it has maximum width and borders
+      var users_grades = document.createElement('table');
+      users_grades.style.width = '100%';
+      users_grades.setAttribute('border', '1');
+
+      // Initalize the html element holding the contents of our table
+      var table_body = document.createElement('tbody');
+
+      // go through our grades
+      for (var i = 0; i < grades_data.length + 1; i++) {
+        // Create a table row element
+        var new_row = document.createElement('tr');
+
+        if(i == 0){
+          // At the top of our table, make the "Courses" and "Grades" tab
+          for (var j = 0; j < 2; j++) {
+            // Create a table "tab" element
+            var new_tab = document.createElement('td');
+
+            // Create a text element and depending on the column
+            // set its text to "Course" or "Grade"
+            var text;
+            if(j == 0){
+              text = document.createTextNode("Course");
+            }else{
+              text = document.createTextNode("Grade");
+            }
+
+            // Append the text object to the tab object, and
+            // make sure the text is centered on the tab
+            new_tab.appendChild(text);
+            new_tab.style.textAlign = "center";
+
+            // add the tab to the current table row object
+            new_row.appendChild(new_tab);
+          }
+        }else{
+          // for all the other rows, insert the course name and grade
+          for (var j = 0; j < 2; j++) {
+            // Create a new table "tab" object
+            var new_tab = document.createElement('td');
+
+            // Create a text element and depending on the column
+            // set its text to the course name or the users grade
+            var text;
+            if(j == 0){
+              text = document.createTextNode(grades_data[i-1].name);
+            }else{
+              var course_grade = grades_data[i-1].enrollments[grades_data[i-1].enrollments.length - 1].computed_current_score;
+              text = document.createTextNode(course_grade == null ? "No Grade for this course" : course_grade + "%");
+            }
+
+            // Append the text object to the tab object, and
+            // make sure the text is centered on the tab
+            new_tab.appendChild(text);
+            new_tab.style.textAlign = "center";
+
+            // add the tab to the current table row object
+            new_row.appendChild(new_tab);
+          }
+        }
+
+        // Add the current table row to the table body object
+        table_body.appendChild(new_row);
+      }
+
+      // add the table body to the overall table
+      users_grades.appendChild(table_body);
+
+      // add the table object to the html element we created
+      new_element.appendChild(users_grades);
+
+      // insert the html element into the html of the dashboard page
+      document.getElementById("DashboardCard_Container").prepend(new_element);
+});
