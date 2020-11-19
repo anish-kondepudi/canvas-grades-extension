@@ -8,8 +8,12 @@ fetch(location.protocol + '//' + location.host + location.pathname + 'api/v1/cou
           }
      })
     .then(res => res.json())
-    .then(data => grades_data = data)
-    .then(function(){
+    .then(function(grades_data){
+
+      Array.from(document.querySelectorAll('.ic-DashboardCard')).forEach(function(tile){
+      	tile.parentNode.removeChild(tile);
+      })
+
       // Create an html element to put our table in
       var new_element = document.createElement('div');
 
@@ -57,17 +61,20 @@ fetch(location.protocol + '//' + location.host + location.pathname + 'api/v1/cou
 
             // Create a text element and depending on the column
             // set its text to the course name or the users grade
-            var text;
+            var link = document.createElement('a');
             if(j == 0){
-              text = document.createTextNode(grades_data[i-1].name);
+              link.setAttribute('href', '/courses/' + grades_data[i-1].id);
+              link.textContent = grades_data[i-1].name;
             }else{
-              var course_grade = grades_data[i-1].enrollments[grades_data[i-1].enrollments.length - 1].computed_current_score;
-              text = document.createTextNode(course_grade == null ? "No Grade for this course" : course_grade + "%");
+              var course_score = grades_data[i-1].enrollments[grades_data[i-1].enrollments.length - 1].computed_current_score;
+              var course_grade = grades_data[i-1].enrollments[grades_data[i-1].enrollments.length - 1].computed_current_grade;
+              link.setAttribute('href', '/courses/' + grades_data[i-1].id + '/grades');
+              link.textContent = course_grade == null ? "N/A" : course_grade + " (" + course_score + "%)";
             }
 
             // Append the text object to the tab object, and
             // make sure the text is centered on the tab
-            new_tab.appendChild(text);
+            new_tab.appendChild(link);
             new_tab.style.textAlign = "center";
 
             // add the tab to the current table row object
