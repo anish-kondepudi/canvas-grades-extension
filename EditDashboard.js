@@ -10,9 +10,9 @@ fetch('/api/v1/courses?include[]=total_scores&per_page=100&enrollment_state=acti
     .then(res => res.json())
     .then(function(grades_data){
 
-      Array.from(document.querySelectorAll('.ic-DashboardCard')).forEach(function(tile){
-      	tile.parentNode.removeChild(tile);
-      })
+      //Array.from(document.querySelectorAll('.ic-DashboardCard')).forEach(function(tile){
+      	//tile.parentNode.removeChild(tile);
+      //});
 
       // Create an html element to put our table in
       var new_element = document.createElement('div');
@@ -32,16 +32,14 @@ fetch('/api/v1/courses?include[]=total_scores&per_page=100&enrollment_state=acti
             new_tab.style.width = '50%';
             // Create a text element and depending on the column
             // set its text to "Course" or "Grade"
-            var text;
             if(j == 0){
-              text = document.createTextNode("Course");
+              new_tab.textContent = 'Course';
             }else{
-              text = document.createTextNode("Grade");
+              new_tab.textContent = 'Grades';
             }
 
             // Append the text object to the tab object, and
             // make sure the text is centered on the tab
-            new_tab.appendChild(text);
 
             // add the tab to the current table row object
             header_row.appendChild(new_tab);
