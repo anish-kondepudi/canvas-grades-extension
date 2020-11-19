@@ -1,3 +1,5 @@
+let running = true;
+
 var header = document.querySelector('#my_courses_table thead .course-list-nickname-column');
 header.textContent = 'Grades';
 
@@ -9,3 +11,5 @@ for(var i = 0; i < column.length; i++)
 {
 	column[i].textContent = grades[i];
 }
+
+// Add timer element which refreshs grades every 10 minutes?
