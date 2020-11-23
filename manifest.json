@@ -3,6 +3,7 @@
 	"name": "Canvas Grades Extension",
 	"version": "1.0",
 	"description": "An Extension to view all your Grades on the Courses Pages!",
+	"homepage_url": "https://tinyurl.com/CanvasExtension",
 	"content_scripts":
 	[{
       "matches": ["https://canvas.ucdavis.edu/"],
