@@ -5,7 +5,7 @@
 	"description": "An Extension to view all your Grades on the Courses Pages!",
 	"content_scripts":
 	[{
-      "matches": ["https://*/", "https://*.instructure.com/*"],
+      "matches": ["https://*/"],
       "js": ["EditDashboard.js"]
     }],
 	"icons":

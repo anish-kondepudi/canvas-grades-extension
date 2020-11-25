@@ -1,19 +1,15 @@
-function numDots(link){
+function numChars(link, givenChar){
   var numDots = 0;
   for(var i = 0; i < link.length; i++){
-    if(link.charAt(i) == '.') numDots++;
+    if(link.charAt(i) == givenChar) numDots++;
   }
   return numDots;
 }
 
 // Function to check if we are really on the dashboard of canvas
-function isDashboard(link){
-  console.log(link);
-  console.log(numDots(link));
+function isCanvasDashboard(link){
   // Make sure the link has two periods
-  if(numDots(link) != 2) return false;
-  console.log(link.startsWith("https://canvas."));
-  console.log(link.endsWith(".edu"));
+  if(numChars(link, '.') != 2) return false;
   if(!link.startsWith("https://canvas.") || !link.endsWith(".edu/")) return false;
 
   // Find the indices of the two periods
@@ -29,9 +25,29 @@ function isDashboard(link){
   return inBetween;
 }
 
+// Function to check if we are really on the dashboard of canvas
+// (name_of_college).instructure.com
+function isInstructureDashboard(link){
+  if(numChars(link, '/') != 3) return false;
+  if(!link.endsWith(".instructure.com/")) return false;
+
+  // Find the indices of the second / and the first period
+  var firstIndex = link.indexOf("/", link.indexOf("/") + 1);
+  var secondIndex = link.indexOf(".");
+  if(firstIndex > secondIndex) return false;
+
+  // Make sure only alphabet letters are in the string between the two dots
+  // We are assuming that universities names only have letters
+  var betweenString = link.substring(firstIndex + 1, secondIndex);
+  console.log(betweenString);
+  var inBetween = /^[a-zA-Z]/.test(betweenString);
+  console.log(inBetween);
+  return inBetween;
+}
+
 // Special thanks to Craig Taub, as table code is based
 // on his answer here: https://stackoverflow.com/questions/14643617/create-table-using-javascript
-if(isDashboard(window.location.href)){
+if(isCanvasDashboard(window.location.href) || isInstructureDashboard(window.location.href)){
   fetch('/api/v1/courses?include[]=total_scores&per_page=100&enrollment_state=active',{
             method: 'GET',
             credentials: 'include',
