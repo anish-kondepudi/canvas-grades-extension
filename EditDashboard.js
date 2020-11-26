@@ -1,15 +1,18 @@
 // Special thanks to Craig Taub, as table code is based
 // on his answer here: https://stackoverflow.com/questions/14643617/create-table-using-javascript
-fetch('/api/v1/courses?include[]=total_scores&per_page=100&enrollment_state=active',{
+
+
+fetch('/api/v1/courses?enrollment_state=active&per_page=100&include[]=total_scores',{
           method: 'GET',
           credentials: 'include',
           headers: {
-               "Accept": "application/json"
+               "Accept": "application/json+canvas-string-ids"
           }
      })
     .then(res => res.json())
     .then(function(grades_data){
 
+      //Store data about 
       var tile_data = {};
 
       Array.from(document.querySelectorAll('.ic-DashboardCard')).forEach(function(tile){
@@ -22,14 +25,9 @@ fetch('/api/v1/courses?include[]=total_scores&per_page=100&enrollment_state=acti
       	tile_data[id] = {'color': color, 'actions': actions};
       });
 
-
-
-      //Array.from(document.querySelectorAll('.ic-DashboardCard')).forEach(function(tile){
-      	//tile.parentNode.removeChild(tile);
-      //});
-
+      // Define column names and their respective widths
       var col_names = ['Course', 'Grades', ''];
-      var col_widths = ['50%', '25%', '25%'];
+      var col_widths = ['40%', '20%', '40%'];
 
       // Create an html element to put our table in
       var new_element = document.createElement('div');
@@ -106,6 +104,7 @@ fetch('/api/v1/courses?include[]=total_scores&per_page=100&enrollment_state=acti
             }
             else if (j==2){
               var container = document.createElement('div');
+              container.style.height = '2.25rem';
               container.style.display = 'flex';
               tile_data[grades_data[i].id].actions.forEach(function(action){
               	container.appendChild(action);
