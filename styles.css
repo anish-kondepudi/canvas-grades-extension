@@ -1,0 +1,44 @@
+/* This is the CSS Style Sheet for popup.html */
+
+/* CSS Styling for 'body' tag */
+body 
+{
+width: 270px;
+padding: 15px;
+background: #2f3740;
+color: #fff;
+font-size: 14px;
+font-weight: bold;
+font-family: "Segoe UI", Tahoma, sans-serif;
+text-align: center;
+}
+
+/* CSS Styling for 'img' tag */
+img 
+{
+	height: 30px;
+}
+
+/* CSS Styling for 'p' tag || Needed for Styling Button to Github Repo */
+p 
+{
+	cursor: default;
+	margin: 5px;
+}
+
+/* CSS Styling for 'a' tag || Needed for Styling Button to Github Repo */
+a 
+{
+	background-color: #5cb85c;
+	padding: 5px 15px;
+	border-radius: 5px;
+	text-decoration: none;
+	color: #fff;
+}
+
+/* CSS Styling Button to Github Repo || class: "full-width" */
+.full-width 
+{
+	display: inline-block;
+	width: 190px;
+}
