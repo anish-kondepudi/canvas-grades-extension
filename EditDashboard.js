@@ -2,23 +2,28 @@
 var url = window.location.href;
 
 //if on dashboard, start to get grades and load new table
-if (/^https:\/\/canvas\.([^()]+)\.edu\/$/.test(url) || /^https:\/\/([^()]+)\.instructure\.com\/$/.test(url)) {
+if (/^https:\/\/canvas\.([^()]+)\.edu\/$/.test(url) || /^https:\/\/([^()]+)\.instructure\.com\/$/.test(url))
+{
 
   //request json file of course data from canvas
-  fetch('/api/v1/courses?enrollment_state=active&per_page=100&include[]=total_scores', {
+  fetch('/api/v1/courses?enrollment_state=active&per_page=100&include[]=total_scores',
+    {
       method: 'GET',
       credentials: 'include',
-      headers: {
+      headers:
+      {
         "Accept": "application/json+canvas-string-ids"
       }
     })
     .then(res => res.json())
-    .then(function (grades_data) {
+    .then(function (grades_data)
+    {
 
       //Store data about tiles already in html to add to our table (course colors, course action buttons, course ids (to correlate tiles to grade data))
       var tile_data = {};
 
-      Array.from(document.querySelectorAll('.ic-DashboardCard')).forEach(function (tile) {
+      Array.from(document.querySelectorAll('.ic-DashboardCard')).forEach(function (tile)
+      {
         //store id of tile
         const id = tile.querySelector('.ic-DashboardCard__link').getAttribute('href').substring(9);
 
@@ -26,7 +31,8 @@ if (/^https:\/\/canvas\.([^()]+)\.edu\/$/.test(url) || /^https:\/\/([^()]+)\.ins
         const color = tile.querySelector('.ic-DashboardCard__header_hero').style.backgroundColor;
 
         //store action buttons of tile
-        const actions = Array.from(tile.querySelectorAll('.ic-DashboardCard__action')).map(function (node) {
+        const actions = Array.from(tile.querySelectorAll('.ic-DashboardCard__action')).map(function (node)
+        {
           return node.cloneNode(true);
         });
 
@@ -50,7 +56,8 @@ if (/^https:\/\/canvas\.([^()]+)\.edu\/$/.test(url) || /^https:\/\/([^()]+)\.ins
       var table_head = document.createElement('thead');
       var header_row = document.createElement('tr');
 
-      for (var i = 0; i < col_names.length; i++) {
+      for (var i = 0; i < col_names.length; i++)
+      {
         // Create a table "tab" element
         var new_tab = document.createElement('th');
         new_tab.setAttribute('scope', 'col');
@@ -72,27 +79,32 @@ if (/^https:\/\/canvas\.([^()]+)\.edu\/$/.test(url) || /^https:\/\/([^()]+)\.ins
       var table_body = document.createElement('tbody');
 
       // go through our grades
-      for (var i = 0; i < grades_data.length; i++) {
+      for (var i = 0; i < grades_data.length; i++)
+      {
 
         // Create a table row element
         var new_row = document.createElement('tr');
         new_row.setAttribute('class', 'course-list-table-row');
 
         //for each rows, insert course name, grades, and action buttons
-        for (var j = 0; j < col_names.length; j++) {
+        for (var j = 0; j < col_names.length; j++)
+        {
 
           // Create a new table "tab" object
           var new_tab = document.createElement('td');
           new_tab.setAttribute('class', 'course-list-course-title-column course-list-no-left-border');
           new_tab.style.width = col_widths[j];
 
-          if (j == 0) { //course name column
+          if (j == 0)
+          { //course name column
 
             //insert color block of specific course
             const span = document.createElement('span');
             span.setAttribute('aria-hidden', 'true');
             span.setAttribute('class', 'course-color-block');
-            span.style.backgroundColor = tile_data[grades_data[i].id].color;
+            if(grades_data[i].id in tile_data){
+              span.style.backgroundColor = tile_data[grades_data[i].id].color;
+            }
             span.style.height = '.65rem';
             span.style.width = '.65rem';
             span.style.float = 'left';
@@ -105,7 +117,9 @@ if (/^https:\/\/canvas\.([^()]+)\.edu\/$/.test(url) || /^https:\/\/([^()]+)\.ins
             link.setAttribute('href', '/courses/' + grades_data[i].id);
             link.textContent = grades_data[i].name;
             new_tab.appendChild(link);
-          } else if (j == 1) { //grades column
+          }
+          else if (j == 1)
+          { //grades column
 
             //get grades and score data of specific course
             var course_score = grades_data[i].enrollments[grades_data[i].enrollments.length - 1].computed_current_score;
@@ -116,17 +130,22 @@ if (/^https:\/\/canvas\.([^()]+)\.edu\/$/.test(url) || /^https:\/\/([^()]+)\.ins
             link.setAttribute('href', '/courses/' + grades_data[i].id + '/grades');
             link.textContent = course_grade == null ? "N/A" : course_grade + " (" + course_score + "%)";
             new_tab.appendChild(link);
-          } else if (j == 2) { //action buttons column
+          }
+          else if (j == 2)
+          { //action buttons column
 
             //create a div to hold actions
             var container = document.createElement('div');
             container.style.height = '2.25rem';
             container.style.display = 'flex';
 
-            //add actions to div
-            tile_data[grades_data[i].id].actions.forEach(function (action) {
-              container.appendChild(action);
-            });
+            if(grades_data[i].id in tile_data){
+              //add actions to div
+              tile_data[grades_data[i].id].actions.forEach(function (action)
+              {
+                container.appendChild(action);
+              });
+            }
 
             //add div to table cell
             new_tab.appendChild(container);
@@ -150,7 +169,8 @@ if (/^https:\/\/canvas\.([^()]+)\.edu\/$/.test(url) || /^https:\/\/([^()]+)\.ins
       // insert the html element into the html of the dashboard page
       document.getElementById("DashboardCard_Container").prepend(new_element);
     })
-    .catch((error) => {
+    .catch((error) =>
+    {
       console.error('Error:', error);
     });
 }
