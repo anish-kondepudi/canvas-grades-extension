@@ -16,3 +16,10 @@ Below are the languages and frameworks used in creating this extension:
 Shown below is the final product of the Canvas Chrome Extension:
 
 ![Image](README_metadata/final_product.png)
+
+**Notes:**
+
+_- For the Chrome Extension to function properly, the user must be on tile view on their Canvas Dashboard_
+_- Currently, the Extension is only functional for Student's of UC Davis_
+_- At the moment there is a bug which shows ALL grades for even previous courses, this will be fixed in future updates_
+
