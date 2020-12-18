@@ -49,6 +49,7 @@ if (/^https:\/\/canvas\.([^()]+)\.edu\/$/.test(url) || /^https:\/\/([^()]+)\.ins
                 // Make a table object with Canvas css styling
                 var table = document.createElement('table');
                 table.setAttribute('class', 'ic-Table ic-Table--bordered course-list-table');
+                table.style.backgroundColor = '#FFFFFF'
                 //table.style.borderTop = '1px solid #C7CDD1';
 
                 var table_head = document.createElement('thead');
@@ -156,17 +157,18 @@ if (/^https:\/\/canvas\.([^()]+)\.edu\/$/.test(url) || /^https:\/\/([^()]+)\.ins
                     table_body.appendChild(new_row);
                 }
 
-
-
-
                 // add the table head and body to the overall table
                 table.appendChild(table_head);
                 table.appendChild(table_body);
 
-				document.getElementById("dashboard_header_container").appendChild(table);                
+                if ("none".localeCompare(document.getElementById("dashboard-planner").style.display) != 0) {
+					document.getElementById("dashboard_header_container").append(table);                
+                }
+                else {
+                	document.getElementById("dashboard_header_container").after(table);
+                }
 
             } else {
-
 
                 // Make a table object with Canvas css styling
                 var table = document.createElement('table');
@@ -229,7 +231,12 @@ if (/^https:\/\/canvas\.([^()]+)\.edu\/$/.test(url) || /^https:\/\/([^()]+)\.ins
                 table.appendChild(table_head);
                 table.appendChild(table_body);
 
-                document.getElementById("dashboard_header_container").appendChild(table);
+                if ("none".localeCompare(document.getElementById("dashboard-planner").style.display) != 0) {
+					document.getElementById("dashboard_header_container").append(table);                
+                }
+                else {
+                	document.getElementById("dashboard_header_container").after(table);
+                }
 
             }
 
