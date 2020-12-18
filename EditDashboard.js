@@ -23,7 +23,7 @@ if (/^https:\/\/canvas\.([^()]+)\.edu\/$/.test(url) || /^https:\/\/([^()]+)\.ins
         .then(([color_data, course_data]) => {
 
             if (course_data.length > 0 && "true".localeCompare(course_data[0].is_favorite) == 0) {
-            	
+
                 var tile_data = {};
 
                 if ("none".localeCompare(document.getElementById("DashboardCard_Container").style.display) != 0) {
@@ -215,7 +215,7 @@ if (/^https:\/\/canvas\.([^()]+)\.edu\/$/.test(url) || /^https:\/\/([^()]+)\.ins
                 star.appendChild(i);
 
 
-                info_tab.innerHTML = "To add courses to your table, go to ";
+                info_tab.innerHTML = "To add courses to the table, go to ";
                 info_tab.appendChild(link);
                 info_tab.innerHTML += " then click the ";
                 info_tab.appendChild(star);
