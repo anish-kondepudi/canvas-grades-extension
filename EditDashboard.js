@@ -12,7 +12,7 @@ if (/^https:\/\/canvas\.([^()]+)\.edu\/$/.test(url) || /^https:\/\/([^()]+)\.ins
                 }
             })
             .then(res => res.json()),
-            fetch('/api/v1/courses?per_page=100&enrollment_state=active&enrollment_type=student&include[]=total_scores&include[]=favorites&include[]=concluded', {
+            fetch('/api/v1/users/self/favorites/courses?include[]=total_scores&include[]=favorites', {
                 method: 'GET',
                 credentials: 'include',
                 headers: {
@@ -22,189 +22,215 @@ if (/^https:\/\/canvas\.([^()]+)\.edu\/$/.test(url) || /^https:\/\/([^()]+)\.ins
         ])
         .then(([color_data, course_data]) => {
 
-            var tile_data = {};
+            if (course_data.length > 0 && "true".localeCompare(course_data[0].is_favorite) == 0) {
+            	
+                var tile_data = {};
 
-            Array.from(document.querySelectorAll('.ic-DashboardCard')).forEach(function(tile) {
-                //store id of tile
-                const id = tile.querySelector('.ic-DashboardCard__link').getAttribute('href').substring(9);
+                if ("none".localeCompare(document.getElementById("DashboardCard_Container").style.display) != 0) {
+	                Array.from(document.querySelectorAll('.ic-DashboardCard')).forEach(function(tile) {
+	                    //store id of tile
+	                    const id = tile.querySelector('.ic-DashboardCard__link').getAttribute('href').substring(9);
 
-                //store action buttons of tile
-                const actions = Array.from(tile.querySelectorAll('.ic-DashboardCard__action')).map(function(node) {
-                    return node.cloneNode(true);
-                });
+	                    //store action buttons of tile
+	                    const actions = Array.from(tile.querySelectorAll('.ic-DashboardCard__action')).map(function(node) {
+	                        return node.cloneNode(true);
+	                    });
 
-                tile_data[id] = {
-                    'actions': actions
-                };
-            });
+	                    tile_data[id] = actions;
+	                });
+	            }
 
-            var curr_courses = Array.from(course_data).filter(function(course) {
-                return ("false".localeCompare(course.concluded) == 0 && "true".localeCompare(course.is_favorite) == 0);
-            })
+                var colors = color_data.custom_colors;
 
-            var colors = color_data.custom_colors;
+                // Define header names and their respective column widths
+                var col_names = ['Course', 'Grades', ''];
+                var col_widths = ['45%', '20%', '35%'];
 
-            // Define header names and their respective column widths
-            var col_names = ['Course', 'Grades', ''];
-            var col_widths = ['45%', '20%', '35%'];
+                // Make a table object with Canvas css styling
+                var table = document.createElement('table');
+                table.setAttribute('class', 'ic-Table ic-Table--bordered course-list-table');
+                //table.style.borderTop = '1px solid #C7CDD1';
 
-            // Create an html element to put our table in
-            var new_element = document.createElement('div');
+                var table_head = document.createElement('thead');
+                var header_row = document.createElement('tr');
 
-            // Make a table object with Canvas css styling
-            var users_grades = document.createElement('table');
-            users_grades.setAttribute('class', 'ic-Table ic-Table--bordered course-list-table');
+                for (var i = 0; i < col_names.length; i++) {
+                    // Create a table "tab" element
+                    var new_tab = document.createElement('th');
+                    new_tab.setAttribute('scope', 'col');
+                    new_tab.setAttribute('class', 'course-list-course-title-column course-list-no-left-border');
 
-            var table_head = document.createElement('thead');
-            var header_row = document.createElement('tr');
+                    //set width of column
+                    new_tab.style.width = col_widths[i];
 
-            for (var i = 0; i < col_names.length; i++) {
-                // Create a table "tab" element
-                var new_tab = document.createElement('th');
-                new_tab.setAttribute('scope', 'col');
-                new_tab.setAttribute('class', 'course-list-course-title-column course-list-no-left-border');
+                    //set name of header column
+                    new_tab.textContent = col_names[i];
+
+                    // add the tab to the current table row object
+                    header_row.appendChild(new_tab);document.getElementById("DashboardCard_Container")
+                }
+                //add row to table head
+                table_head.append(header_row);
+
+                //create table body
+                var table_body = document.createElement('tbody');
+
+                // go through our grades
+                for (var i = 0; i < course_data.length; i++) {
+
+                    // Create a table row element
+                    var new_row = document.createElement('tr');
+                    new_row.setAttribute('class', 'course-list-table-row');
+
+                    //for each rows, insert course name, grades, and action buttons
+                    for (var j = 0; j < col_names.length; j++) {
+
+                        // Create a new table "tab" object
+                        var new_tab = document.createElement('td');
+                        new_tab.setAttribute('class', 'course-list-course-title-column course-list-no-left-border');
+                        new_tab.style.width = col_widths[j];
+
+                        if (j == 0) { //course name column
+
+                            //insert color block of specific course
+                            const span = document.createElement('span');
+                            span.setAttribute('aria-hidden', 'true');
+                            span.setAttribute('class', 'course-color-block');
+                            span.style.backgroundColor = colors['course_' + course_data[i].id];
+                            span.style.height = '.65rem';
+                            span.style.width = '.65rem';
+                            span.style.float = 'left';
+                            span.style.marginRight = '.5rem';
+                            span.style.marginTop = '.2rem';
+                            new_tab.append(span);
+
+                            //insert course name linking to home page of course
+                            var link = document.createElement('a');
+                            link.setAttribute('href', '/courses/' + course_data[i].id);
+                            link.textContent = course_data[i].name;
+                            new_tab.appendChild(link);
+
+                        } else if (j == 1) { //grades column
+
+                            //get grades and score data of specific course
+                            var course_score = course_data[i].enrollments[0].computed_current_score;
+                            var course_grade = course_data[i].enrollments[0].computed_current_grade;
+
+                            //insert grade and score linking to grade page of course
+                            var link = document.createElement('a');
+                            link.setAttribute('href', '/courses/' + course_data[i].id + '/grades');
+                            if (course_grade == null && course_score == null) {
+                                link.textContent = "N/A";
+                            } else if (course_grade != null && course_score == null) {
+                                link.textContent = course_grade;
+                            } else if (course_grade == null && course_score != null) {
+                                link.textContent = course_score + "%";
+                            } else {
+                                link.textContent = course_grade + " (" + course_score + "%)";
+                            }
+                            new_tab.appendChild(link);
+
+                        } else if (j == 2) { //action buttons column
+
+                            //create a div to hold actions
+                            var container = document.createElement('div');
+                            container.style.height = '2.25rem';
+                            container.style.display = 'flex';
+
+                            if (course_data[i].id in tile_data) {
+                                //add actions to div
+                                tile_data[course_data[i].id].forEach(function(action) {
+                                    container.appendChild(action);
+                                });
+                            }
+
+                            //add div to table cell
+                            new_tab.appendChild(container);
+                        }
+
+                        // add the tab to the current table row object
+                        new_row.appendChild(new_tab);
+                    }
+
+                    // Add the current table row to the table body object
+                    table_body.appendChild(new_row);
+                }
+
+
+
+
+                // add the table head and body to the overall table
+                table.appendChild(table_head);
+                table.appendChild(table_body);
+
+				document.getElementById("dashboard_header_container").appendChild(table);                
+
+            } else {
+
+
+                // Make a table object with Canvas css styling
+                var table = document.createElement('table');
+                table.setAttribute('class', 'ic-Table ic-Table--bordered course-list-table');
+
+                var table_head = document.createElement('thead');
+                var header_row = document.createElement('tr');
+
+                var header_tab = document.createElement('th');
+                header_tab.setAttribute('scope', 'col');
+                header_tab.setAttribute('class', 'course-list-course-title-column course-list-no-left-border');
 
                 //set width of column
-                new_tab.style.width = col_widths[i];
+                header_tab.style.width = '100%';
 
                 //set name of header column
-                new_tab.textContent = col_names[i];
+                header_tab.textContent = 'Courses';
 
                 // add the tab to the current table row object
-                header_row.appendChild(new_tab);
-            }
-            //add row to table head
-            table_head.append(header_row);
+                header_row.appendChild(header_tab);
 
-            //create table body
-            var table_body = document.createElement('tbody');
+                //add row to table head
+                table_head.append(header_row);
 
-            if(curr_courses.length == 0){
-              var new_row = document.createElement('tr');
-              new_row.setAttribute('class', 'course-list-table-row');
-
-              var new_tab = document.createElement('td');
-              new_tab.setAttribute('class', 'course-list-course-title-column course-list-no-left-border');
-              new_tab.style.width = '50%';
-
-              var regular_text = document.createElement('div');
-              regular_text.textContent = "You have not starred any courses";
-              new_tab.appendChild(regular_text);
-
-              new_row.appendChild(new_tab);
+                //create table body
+                var table_body = document.createElement('tbody');
 
 
-              var second_tab = document.createElement('td');
-              second_tab.setAttribute('class', 'course-list-course-title-column course-list-no-left-border');
-              second_tab.style.width = '50%';
+                var info_row = document.createElement('tr');
+                info_row.setAttribute('class', 'course-list-table-row');
 
-              var linkToAllC = document.createElement('a');
-              linkToAllC.setAttribute('href', '/courses/');
-              linkToAllC.textContent = "Click here, then click on the star icon next to each class whose grade you want to see";
-              second_tab.appendChild(linkToAllC);
+                var info_tab = document.createElement('td');
+                info_tab.setAttribute('class', 'course-list-course-title-column course-list-no-left-border');
+                info_tab.style.width = '100%';
 
-              new_row.appendChild(second_tab);
+                var link = document.createElement('a');
+                link.setAttribute('href', '/courses/');
+                link.textContent = window.location.href + 'courses/';
 
-              table_body.append(new_row);
-              users_grades.appendChild(table_head);
-              users_grades.appendChild(table_body);
+                var star = document.createElement('span');
+                star.setAttribute('class', 'course-list-favoritable');
+                star.style.paddingRight = '.25rem';
+                star.style.paddingLeft = '.25rem';
+                var i = document.createElement('i');
+                i.setAttribute('class', 'course-list-favorite-icon icon-star-light');
+                star.appendChild(i);
 
-              // add the table object to the html element we created
-              new_element.appendChild(users_grades);
 
-              // insert the html element into the html of the dashboard page
-              document.getElementById("DashboardCard_Container").prepend(new_element);
-            }else{
+                info_tab.innerHTML = "To add courses to your table, go to ";
+                info_tab.appendChild(link);
+                info_tab.innerHTML += " then click the ";
+                info_tab.appendChild(star);
+                info_tab.innerHTML += " icon next to each class you want to view."
 
-              // go through our grades
-              for (var i = 0; i < curr_courses.length; i++) {
+                info_row.appendChild(info_tab);
 
-                  // Create a table row element
-                  var new_row = document.createElement('tr');
-                  new_row.setAttribute('class', 'course-list-table-row');
+                table_body.append(info_row);
 
-                  //for each rows, insert course name, grades, and action buttons
-                  for (var j = 0; j < col_names.length; j++) {
+                // add the table head and body to the overall table
+                table.appendChild(table_head);
+                table.appendChild(table_body);
 
-                      // Create a new table "tab" object
-                      var new_tab = document.createElement('td');
-                      new_tab.setAttribute('class', 'course-list-course-title-column course-list-no-left-border');
-                      new_tab.style.width = col_widths[j];
+                document.getElementById("dashboard_header_container").appendChild(table);
 
-                      if (j == 0) { //course name column
-
-                          //insert color block of specific course
-                          const span = document.createElement('span');
-                          span.setAttribute('aria-hidden', 'true');
-                          span.setAttribute('class', 'course-color-block');
-                          span.style.backgroundColor = colors['course_' + curr_courses[i].id];
-                          span.style.height = '.65rem';
-                          span.style.width = '.65rem';
-                          span.style.float = 'left';
-                          span.style.marginRight = '.5rem';
-                          span.style.marginTop = '.2rem';
-                          new_tab.append(span);
-
-                          //insert course name linking to home page of course
-                          var link = document.createElement('a');
-                          link.setAttribute('href', '/courses/' + curr_courses[i].id);
-                          link.textContent = curr_courses[i].name;
-                          new_tab.appendChild(link);
-
-                      } else if (j == 1) { //grades column
-
-                          //get grades and score data of specific course
-                          var course_score = curr_courses[i].enrollments[curr_courses[i].enrollments.length - 1].computed_current_score;
-                          var course_grade = curr_courses[i].enrollments[curr_courses[i].enrollments.length - 1].computed_current_grade;
-
-                          //insert grade and score linking to grade page of course
-                          var link = document.createElement('a');
-                          link.setAttribute('href', '/courses/' + curr_courses[i].id + '/grades');
-                          if (course_grade == null && course_score == null) {
-                              link.textContent = "N/A";
-                          } else if (course_grade != null && course_score == null) {
-                              link.textContent = course_grade;
-                          } else if (course_grade == null && course_score != null) {
-                              link.textContent = course_score + "%";
-                          } else {
-                              link.textContent = course_grade + " (" + course_score + "%)";
-                          }
-                          new_tab.appendChild(link);
-                      } else if (j == 2) { //action buttons column
-
-                          //create a div to hold actions
-                          var container = document.createElement('div');
-                          container.style.height = '2.25rem';
-                          container.style.display = 'flex';
-
-                          if (curr_courses[i].id in tile_data) {
-                              //add actions to div
-                              tile_data[curr_courses[i].id].actions.forEach(function(action) {
-                                  container.appendChild(action);
-                              });
-                          }
-
-                          //add div to table cell
-                          new_tab.appendChild(container);
-                      }
-
-                      // add the tab to the current table row object
-                      new_row.appendChild(new_tab);
-                  }
-
-                  // Add the current table row to the table body object
-                  table_body.appendChild(new_row);
-              }
-
-              // add the table head and body to the overall table
-              users_grades.appendChild(table_head);
-              users_grades.appendChild(table_body);
-
-              // add the table object to the html element we created
-              new_element.appendChild(users_grades);
-
-              // insert the html element into the html of the dashboard page
-              document.getElementById("DashboardCard_Container").prepend(new_element);
             }
 
         }).catch((err) => {
