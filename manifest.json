@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "Canvas Grades Extension",
-	"version": "0.0.0.2",
+	"version": "0.0.0.3",
 	"description": "An Extension to view all your Grades on the Courses Pages!",
 	"content_scripts":
 	[{
