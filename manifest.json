@@ -1,23 +1,41 @@
 {
-	"manifest_version": 2,
-	"name": "Canvas Grades Extension",
-	"version": "0.0.0.3",
-	"description": "An Extension to view all your Grades on the Courses Pages!",
-	"content_scripts":
-	[{
-      "matches": ["https://*/"],
-      "js": ["EditDashboard.js"]
-    }],
-	"icons":
-	{
-		"128": "canvas_logo.png",
-		"48": "canvas_logo.png",
-		"16": "canvas_logo.png"
-	},
-	"browser_action":
-	{
-		"default_icon": "canvas_logo.png",
-		"default_popup": "popup.html",
-		"default_title": "Canvas Grades Extension"
-	}
+  "manifest_version": 3,
+  "name": "Canvas Grades Extension",
+  "version": "0.1.0",
+  "description": "An Extension to view all your Grades on the Courses Pages!",
+  "permissions": [
+    "scripting",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://*/"
+  ],
+  "action": {
+    "default_icon": {
+      "16": "canvas_logo.png",
+      "48": "canvas_logo.png",
+      "128": "canvas_logo.png"
+    },
+    "default_popup": "popup.html",
+    "default_title": "Canvas Grades Extension"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*/"
+      ],
+      "js": [
+        "EditDashboard.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "icons": {
+    "16": "canvas_logo.png",
+    "48": "canvas_logo.png",
+    "128": "canvas_logo.png"
+  }
 }
